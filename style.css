@@ -29,6 +29,7 @@
     display: flex;
     flex: 5;
     justify-content: space-between;
+    gap: 10px;
 }
 
 #number-container {
@@ -39,8 +40,8 @@
 }
 
 #number-container button {
-    height: 100px;
-    width: 100px;
+    height: 105px;
+    width: 105px;
 }
 
 #operator-container {
