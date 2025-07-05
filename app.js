@@ -17,6 +17,9 @@ numberContainer.addEventListener("click", (e) => {
 
 const operatorContainer = document.querySelector("#operator-container");
 operatorContainer.addEventListener("click", (e) => {
+  if (e.target.tagName !== "BUTTON") {
+    return;
+  }
   if (e.target.id === "clear") {
     operationVariable.length = 0;
     display.textContent = "";
