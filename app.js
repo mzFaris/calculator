@@ -7,12 +7,13 @@ numberContainer.addEventListener("click", (e) => {
   if (e.target.tagName !== "BUTTON") {
     return;
   }
-  display.textContent = e.target.id;
-  if (operationVariable.length === 3) {
-    operationVariable.length = 0;
+
+  if (!isNaN(operationVariable.slice(-1))) {
+    operationVariable.pop();
   }
+
   operationVariable.push(+e.target.id);
-  console.log(operationVariable);
+  display.textContent = operationVariable.slice(-1);
 });
 
 const operatorContainer = document.querySelector("#operator-container");
@@ -20,23 +21,47 @@ operatorContainer.addEventListener("click", (e) => {
   if (e.target.tagName !== "BUTTON") {
     return;
   }
+
   if (e.target.id === "clear") {
     operationVariable.length = 0;
     display.textContent = "";
-  } else if (e.target.id === "equal") {
+    return;
+  }
+
+  if (e.target.id === "equal") {
     operationVariable[0] = operate(
       operationVariable[0],
       operationVariable[2],
       operationVariable[1],
     );
     display.textContent = operationVariable[0];
-  } else {
-    if (operationVariable.length === 2) {
-      operationVariable.length = 1;
-    }
-    operationVariable.push(e.target.textContent);
+    operationVariable.length = operationVariable[0] === "ERROR" ? 0 : 1;
+    return;
   }
-  console.log(operationVariable);
+
+  if (operationVariable.length === 0) {
+    return;
+  }
+
+  if (isNaN(operationVariable.slice(-1))) {
+    operationVariable.pop();
+    operationVariable.push(e.target.textContent);
+    return;
+  }
+
+  if (operationVariable.length === 3) {
+    operationVariable[0] = operate(
+      operationVariable[0],
+      operationVariable[2],
+      operationVariable[1],
+    );
+    operationVariable.length = operationVariable[0] === "ERROR" ? 0 : 1;
+    display.textContent = operationVariable[0];
+    operationVariable.push(e.target.textContent);
+    return;
+  }
+
+  operationVariable.push(e.target.textContent);
 });
 
 function operate(a, b, operator) {
